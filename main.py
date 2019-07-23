@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request 
 
 import cgi
 
@@ -26,83 +26,89 @@ def index():
 
 	template = jinja_env.get_template('index.html')
 
-	return template.render(password1='')
-
 
 
 	
 
-@app.route("/create", methods=["POST"])
+@app.route("/create", methods= ["POST",'GET'])
 
 def create():
 
-	verified = False
-
-	var1 = 0
-
-	var2 = 0
 
 	template = jinja_env.get_template('index.html')
 
 	welcome = jinja_env.get_template('welcome.html')
 
-	username = request.form["username"]
+	if request.method == 'POST': 
+		verified = False
 
-	password1 = request.form["pas1"]
+		var1 = 0
 
-	password2 = request.form["pas2"]
+		var2 = 0
 
-	email = request.form["email"]
+		template = jinja_env.get_template('index.html')
 
-	if len(email) > 0:
+		welcome = jinja_env.get_template('welcome.html')
 
-		for char in email:
+		username = request.form["username"]
 
-			if char=="@":
+		password1 = request.form["pas1"]
 
-				var1+=1
+		password2 = request.form["pas2"]
 
-			if char==".":
+		email = request.form["email"]
 
-				var2+=1
+		if len(email) > 0:
 
-			if var1==1 and var2 >=1:
+			for char in email:
 
-				verified = True
+				if char=="@":
 
-			else:
+					var1+=1
 
-				verified = False
+				if char==".":
 
-	else:
+					var2+=1
 
-		verified = True
+				if var1==1 and var2 >=1:
 
-	if verified == False:
-
-		return template.render(email1=" This is not a valid email.")
-
-	elif verified == True:
-
-		if password1 != password2:
-
-			return template.render(pass2=" Passwords do not match!")
-
-		elif password1 == password2:
-
-			if len(password1) >= 3 and len(password1) <=20:
-
-				if len(username) > 0:
-
-					return welcome.render(user=username)
+					verified = True
 
 				else:
 
-					return template.render(name1=" Must have a username")
+					verified = False
 
-			else:
+		else:
 
-				return template.render(pass2=" Password must be between 3 and 20 characters long.")
+			verified = True
 
+		if verified == False:
 
-				app.run ()
+			return template.render(email1=" This is not a valid email.", name1=username)
+
+		elif verified == True:
+
+			if password1 != password2:
+
+				return template.render(pass2=" Passwords do not match!", name1=username, email1 = email)
+
+			elif password1 == password2:
+
+				if len(password1) >= 3 and len(password1) <=20 and not (' ' in password1):
+
+					if not (' ' in username) and  (len (username) > 3) and (len (username) < 20):
+
+						return welcome.render(user=username, name1=username, email1 = email)
+
+					else:
+
+						return template.render(name1=" Must have a username", email1 = email)
+
+				else:
+
+					return template.render(pass2=" Password must be between 3 and 20 characters long.", name1=username, email1 = email)
+
+	else:
+		return template.render()
+
+app.run()

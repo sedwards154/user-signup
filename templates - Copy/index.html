@@ -10,12 +10,9 @@
 
             .error {
 
-                color: orange;
+                color: orange ;
 
-                display: inline-block;
-                
-
-                
+				display: inline-block;
 
             }
 
@@ -33,12 +30,10 @@
 
                 <tr>
 
-                    <td><label for="username">Username</label></td>
+                    <td><label for="username">Username
 
-                    <td>
-
-                        <input id="username" name="username" type="text" value=""><p class="error"></p>
-
+                        <input id="username" name="username" type="text" value="{{username}}"><p class="error">{{name1}}</p>
+                    </label>
                     </td>
 
                 </tr>
@@ -49,7 +44,7 @@
 
                     <td>
 
-                        <input id="pas1" name="pas1" type="password" value=>
+                        <input id="pas1" name="pas1" type="password" value="{{firstpassword}}">
 
                     </td>
 
@@ -61,7 +56,7 @@
 
                     <td>
 
-                        <input id="pas2" name="pas2" type="password"><p class="error"> </p>
+                        <input id="pas2" name="pas2" type="password"><p class="error">{{pass2}}</p>
 
                     </td>
 
@@ -73,7 +68,7 @@
 
                     <td>
 
-                        <input id="email" name="email" value=""><p class="error"> </p>
+                        <input id="email" name="email" value=""><p class="error">{{email1}}</p>
 
                     </td>
 
