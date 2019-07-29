@@ -102,7 +102,7 @@ def create():
 
 					else:
 
-						return template.render(name1=" Must have a username", email1 = email)
+						return template.render(name=" Must have a username", email1 = email)
 
 				else:
 
