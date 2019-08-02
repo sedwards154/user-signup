@@ -25,7 +25,7 @@ app.config['DEBUG'] = True
 def index():
 
 	template = jinja_env.get_template('index.html')
-
+	return template.render ()
 
 
 	
@@ -58,57 +58,41 @@ def create():
 
 		email = request.form["email"]
 
+		username_error = ""
+		password1_error = ""
+		password2_error = ""
+		email_error = ""
+		 
+		if len (username) <3 or len (username)>20 or " " in username:
+		 	 username_error= "must meet user name requirements"
+
+		if password1 != password2:
+			password2_error= "passwords must match"
+
+
+		if len(password1) <3 or len(password1)>20 or " " in password1:
+			password1_error= " Password must be between 3 and 20 characters long."
+
+		
+		
+		
 		if len(email) > 0:
+			
+			if len (email)<3 or len (email)>20 or " " in email or email.count("@") !=1 or email.count(".") !=1:
+			
+				email_error=" This is not a valid email."
 
-			for char in email:
 
-				if char=="@":
+		if username_error or email_error or password1_error or password2_error:
 
-					var1+=1
-
-				if char==".":
-
-					var2+=1
-
-				if var1==1 and var2 >=1:
-
-					verified = True
-
-				else:
-
-					verified = False
+		
+    
+	  
+	  			return template.render(email_error=email_error, username_error=username_error, password1_error=password1_error, password2_error=password2_error, name1=username, email1=email)
+  
 
 		else:
+				return welcome.render(user=username, name1=username, email1 = email)
 
-			verified = True
-
-		if verified == False:
-
-			return template.render(email1=" This is not a valid email.", name1=username)
-
-		elif verified == True:
-
-			if password1 != password2:
-
-				return template.render(pass2=" Passwords do not match!", name1=username, email1 = email)
-
-			elif password1 == password2:
-
-				if len(password1) >= 3 and len(password1) <=20 and not (' ' in password1):
-
-					if not (' ' in username) and  (len (username) > 3) and (len (username) < 20):
-
-						return welcome.render(user=username, name1=username, email1 = email)
-
-					else:
-
-						return template.render(name=" Must have a username", email1 = email)
-
-				else:
-
-					return template.render(pass2=" Password must be between 3 and 20 characters long.", name1=username, email1 = email)
-
-	else:
-		return template.render()
 
 app.run()
